@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de sueldos</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">Cálculo de Sueldos</a>
+        </nav>
+    </div>
+    <br>
+    <div class="container">
+        
+        <form id="form">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="">Horas trabajadas</label>
+                    <input type="text" name="hora_oficial" class="form-control" id="hora_oficial">
+                </div> 
+                <div class="col-md-3">
+                    <label for="">Horas extra</label>
+                    <input type="text" name="hora_extra" class="form-control" id="hora_extra">
+                </div>  
+                            
+            </div> 
+            <br>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="">AFP</label>
+                    <select name="afp" id="afp" class="form-control">
+                        <option value="cuprum">Cuprum</option>
+                        <option value="modelo">Modelo</option>
+                        <option value="capital">Capital</option>
+                        <option value="provida">Provida</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="">Previsión de salud</label>
+                    <select name="prevision" id="prevision" class="form-control">
+                        <option value="fonasa">Fonasa</option>
+                        <option value="consalud">Consalud</option>
+                        <option value="masvida">Mas Vida</option>
+                        <option value="banmedica">Banmedica</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-md btn-primary" style="margin-top: 23px;" onclick="CalcularSueldo()">Calcular Sueldo</button>
+                </div>  
+            </div>
+            <br><br>
+            <div class="row">
+                <table>
+                    <thead>
+                        <th>Sueldo Bruto</th>
+                        <th>Descuento AFP</th>
+                        <th>Descuento Previsión</th>
+                        <th>Sueldo Líquido</th>
+                    </thead>
+                    <tbody id="data-body">
+                        <td id="sueldo_bruto"></td>
+                        <td id="descuento_afp"></td>
+                        <td id="descuento_prevision"></td>
+                        <td id="sueldo_liquido"></td>
+                    </tbody>
+                </table>
+            </div>         
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div id="result"></div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./js/calculadora-sueldos.js"></script>
+<script>
+
+    function CalcularSueldo(){
+        let hora_oficial = document.getElementById('hora_oficial').value;
+        let hora_extra = document.getElementById('hora_extra').value;
+        let afp = document.getElementById('afp').value;
+        let prevision = document.getElementById('prevision').value;
+
+        let sueldo_bruto = SueldoBruto(hora_oficial, hora_extra)
+        sueldo_bruto = BonoMarzo(sueldo_bruto)
+        let descuento_afp = DescuentoAFP(afp, sueldo_bruto)
+        let descuento_prevision = DescuentoPrevision(prevision, sueldo_bruto)
+        let sueldo_liquido = SueldoLiquido(sueldo_bruto, descuento_afp, descuento_prevision)
+
+        document.getElementById('sueldo_bruto').innerHTML = sueldo_bruto.toLocaleString("es-ES")
+        document.getElementById('descuento_afp').innerHTML = descuento_afp.toLocaleString("es-ES")
+        document.getElementById('descuento_prevision').innerHTML = descuento_prevision.toLocaleString("es-ES")
+        document.getElementById('sueldo_liquido').innerHTML = sueldo_liquido.toLocaleString("es-ES")
+
+    }
+    
+</script>
